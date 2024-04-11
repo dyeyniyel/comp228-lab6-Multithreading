@@ -1,35 +1,39 @@
 package exercise1;
 
+import javax.swing.JOptionPane;
+
 public class Account {
-    private int balance = 10000;
+    private double balance;
 
-    public int getBalance() {
-        return balance;
+
+    public Account(double balance) {
+        this.balance = balance;
     }
 
-    public synchronized void deposit(int amount) {
-        int newBalance = balance + amount;  //deposit amount
-        try {
-            Thread.sleep(50); // simulate some database or network delay
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        balance = newBalance;
-
+    //allow thread synchronization
+    //Synchronized method to deposit 
+    public synchronized void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposit: $" + amount + "\nNew Balance: " + balance);
+        JOptionPane.showMessageDialog(null, "Deposit: $" + amount + "\nNew Balance: " + balance);
     }
 
-    public synchronized void withdraw(int amount) {
+
+    // Synchronized method to withdraw 
+    public synchronized void withdraw(double amount) {
         if (balance >= amount) {
-            int newBalance = balance - amount;  //withdraw amount
-            try {
-                Thread.sleep(50); // simulate some database or network delay
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            balance = newBalance;
+            balance -= amount;
+            System.out.println("Withdraw: $" + amount + "\nNew Balance: " + balance);
+            JOptionPane.showMessageDialog(null, "Withdraw: $" + amount + "\nNew Balance: " + balance);
         } else {
-            System.out.println("Insufficient balance for withdrawal. Current balance: " + balance);
+            System.out.println("Insufficient balance for withdrawal.");
+            JOptionPane.showMessageDialog(null, "Insufficient balance for withdrawal. Current balance is $" + balance);
         }
     }
-}
 
+	public double getBalance() {
+		return balance;
+	}
+
+
+}
